@@ -1,0 +1,71 @@
+泛型类:类名后面写尖括号, 属性可以写, 参数中可以写, 返回类型可以写
+public class Generic<T>{ 
+    private T key;
+
+    public Generic(T key) { 
+        this.key = key;
+    }
+
+    public T getKey(){ 
+        return key;
+    }
+}
+
+// 实现的类还是泛型
+class FruitGenerator<T> implements Generator<T>{
+    @Override
+    public T next() {
+        return null;
+    }
+}
+
+// 实现的类指定了类型
+public class FruitGenerator implements Generator<String> {
+
+    private String[] fruits = new String[]{"Apple", "Banana", "Pear"};
+
+    @Override
+    public String next() {
+        Random rand = new Random();
+        return fruits[rand.nextInt(3)];
+    }
+}
+
+// 泛型方法, public后加尖括号
+public <T> T genericMethod(Class<T> tClass)throws InstantiationException ,
+  IllegalAccessException{
+        T instance = tClass.newInstance();
+        return instance;
+}
+
+// 泛型数组和集合, 可以for循环
+public <T> void printMsg( T... args){
+    for(T t : args){
+        Log.d("泛型测试","t is " + t);
+    }
+}
+
+不能创建一个确切的泛型类型的数组
+也就是说下面的这个例子是不可以的：
+
+List<String>[] ls = new ArrayList<String>[10];  
+1
+而使用通配符创建泛型数组是可以的，如下面这个例子：
+
+List<?>[] ls = new ArrayList<?>[10];  
+1
+这样也是可以的：
+
+List<String>[] ls = new ArrayList[10];
+
+// 泛型通配符
+public void showKeyValue1(Generic<? extends Number> obj){
+    Log.d("泛型测试","key value is " + obj.getKey());
+}
+
+// 泛型边界
+public <T extends Number> T showKeyName(Generic<T> container){
+    System.out.println("container key :" + container.getKey());
+    T test = container.getKey();
+    return test;
+}
